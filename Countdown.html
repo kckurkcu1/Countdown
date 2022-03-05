@@ -1,0 +1,61 @@
+<html>
+	<head>
+		<style>
+			.countDownParent{
+				margin:20px 10px;
+			}
+			.countDownElement span{
+				border:1px solid;
+				padding:5px;
+				margin:5px;
+				background-color: gold;
+				color: black;
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<!--You can change the dates from here ! -->
+		<div class="countDownParent">Remaining time for TYT: <span data-date="2022/06/18 10:15:00" class="countDownElement"></span></div>
+		<div class="countDownParent">Remaining time for AYT: <span data-date="2022/06/19 10:15:00" class="countDownElement"></span></div>
+        <div class="countDownParent">Remaining time for YDT: <span data-date="2022/06/19 15:45:00" class="countDownElement"></span></div>
+
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+		<script>
+			var dayText	= "Day";
+			var hourText	= "Hour";
+			var minuteText	= "Minute";
+			var secondText	= "Second";
+			var x = setInterval(function(){ 
+				if ($(".countDownClose").length == $(".countDownElement").length){ 
+					clearInterval(x); 
+					alert("Not all counters are active because there is no future date."); 
+				}
+				
+				$(".countDownElement").each(function(){ 
+					var thisElement = $(this); 
+					if (!$(thisElement).hasClass("countDownClose")){ 
+						var countDownDate = new Date(thisElement.data("date")).getTime(); 
+						var now = new Date().getTime(); 
+						var distance = countDownDate - now; 
+						if (distance < 0) { 
+							$(thisElement).html("There is no future date for count.").removeClass("countDownOpen").addClass("countDownClose"); //
+						}else { 
+							var days = Math.floor(distance / (1000 * 60 * 60 * 24)),
+								hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+								minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+								seconds = Math.floor((distance % (1000 * 60)) / 1000),
+								days = (days?'<span>'+(days +' '+ dayText)+'</span>':''),
+								hours = (hours?'<span>'+(hours +' '+ hourText)+'</span>':''),
+								minutes = (minutes?'<span>'+(minutes +' '+ minuteText)+'</span>':''),
+								seconds = (seconds?'<span>'+(seconds +' '+ secondText)+'</span>':'');
+							thisElement.html(days +' '+ hours +' '+ minutes +' '+ seconds);
+						}
+					}
+				});
+			}, 1000);
+
+		</script>
+	</body>
+</html>
